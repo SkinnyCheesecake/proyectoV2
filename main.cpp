@@ -242,7 +242,7 @@ void menu::modificarClientes(){
     lectura.open("clientes.txt", ios::in);
     verificador.open("clientes.txt", ios::in);
     auxiliar.open("auxiliar.txt", ios::out);
-    cout << "**\nModificar los datos de un cliente\n**" << endl;
+    cout << "\n**Modificar los datos de un cliente**\n" << endl;
     if(lectura.is_open() && verificador.is_open() && auxiliar.is_open()){
         fflush(stdin);
         cout << "Ingresa el codigo del cliente que desea modificar";
@@ -281,7 +281,7 @@ void menu::modificarClientes(){
                         }
                         verificador.seekg(0);
                         getline(verificador, codigo);
-                        while(!verificador.eof()){
+                        while(verificador.eof());{
                             getline(verificador, nombre);
                             getline(verificador, domicilio);
                             getline(verificador, telefono);
@@ -289,21 +289,32 @@ void menu::modificarClientes(){
 
                             if(codigoauxiliar == codigo){
                                 coincidencia = true;
-                                cout << "\nYa existe un cliente con ese codigo\n" << endl << "Ingresa un codigo valido" << endl;
+                                cout << "Ya existe un cliente con ese codigo" << endl << "El cliente con ese codigo es: " << nombre << endl << "Intentalo de nuevo >> ";
                                 getline(cin, codigoauxiliar);
+
+                                if(codigoauxiliar == ""){
+                                    do{
+                                        cout << "Codigo no valido. \nINTENTELO NUEVAMENTE >>";
+                                        getline(cin, codigoauxiliar);
+                                    }
+                                    while(codigoauxiliar == "");
+                                }
+                                break;
                             }
-                            while(codigoauxiliar == "");
+                            getline(verificador, codigo);
                         }
-                        break;
+
+                        if(verificador.eof() && codigoauxiliar != codigo){
+                            coincidencia = false;
+                            }
+                        }
+                        while(coincidencia = true);
                     }
-                    getline(verificador, codigo);
-                }
-                if(verificador.eof() && codigoauxiliar != codigo){
-                    coincidencia = false;
-                }
+                    system("cls");
+                    cout << "*MODIFICAR LOS DATOS DEL CLIENTE*";
+
             }
-            while(coincidencia = true);
         } 
 
-        }
     }
+}
