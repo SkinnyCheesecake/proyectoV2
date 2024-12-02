@@ -18,6 +18,7 @@ class menu{
 
 
     public:
+        void menuPrincipal();
         void capturarClientes();
         void mostrarClientes(string nuevocodigo);
         void modificarClientes();
@@ -312,9 +313,94 @@ void menu::modificarClientes(){
                     }
                     system("cls");
                     cout << "*MODIFICAR LOS DATOS DEL CLIENTE*";
-
+                    cout << "Ingresa el codigo del cliente que deseas modificar";
+                    cout << nuevocodigo;
+                    mostrarClientes(nuevocodigo);
+                    cout << "******************************************" << endl;
+                    cout << "## Ingresa la nueva informacion del cliente ##" << endl;
+                    cout << "Ingresa el nuevo NOMBRE para el cliente: "; getline(cin, nombreauxiliar); fflush(stdin); cout << "\n" << endl;
+                    cout << "Ingresa el nuevo DOMICILIO para el cliente: "; getline(cin, domicilioauxiliar); fflush(stdin); cout << "\n" << endl;
+                    cout << "Ingresa el nuevo TELEFONO para el cliente: "; getline(cin, telefonoauxiliar); fflush(stdin); cout << "\n" << endl;
+                    cout << "Ingresa el nuevo FECHA DE PAGO para el cliente: "; getline(cin, fechauxiliar); fflush(stdin); cout << "\n" << endl;
+                    cout << "El registro se modifico a: " << endl;
+                    auxiliar << codigoauxiliar << endl << nombreauxiliar << endl << domicilioauxiliar << endl << telefonoauxiliar << endl << fechauxiliar << endl;
+                    cout << "\n## El registro se ha guardado correctamente ##" << endl;
             }
+
+            else{
+                auxiliar << codigo << endl << nombre << endl << domicilio << endl << telefono << endl << fechapago << endl;
+            }
+
+            getline(lectura, codigo);
         } 
+    }
+
+    else{
+        error();
+    }
+
+    if(encontrado = false){
+        cout << "\nNO SE HA ENCONTRADO NINGUN CLIENTE CON ESE CODIGO!!!" << endl;
+    }   
+    lectura.close();
+    verificador.close();
+    auxiliar.close();
+    remove("clientes.txt");
+    rename("auxiliar.txt", "clientes.txt");
+    pausa();
+}
+
+void menu::mostrarClientes(){
+    int i = 0;
+    ifstream lectura;
+    lectura.open("clientes.txt, ios::in");
+    if(lectura.is_open()){
+        cout << "## LISTADO DE TODOS LOS CLIENTES ##" << endl;
+        getline(lectura, codigo);
+        while(lectura.eof()){
+            i++;
+            getline(lectura, nombre);
+            getline(lectura, domicilio);
+            getline(lectura, telefono);
+            getline(lectura, fechapago);
+
+            cout << "Codigo: " << codigo << endl;
+            cout << "Nombre: " << nombre << endl;
+            cout << "Domicilio: " << domicilio << endl;
+            cout << "Telefono: " << telefono << endl;
+            cout << "Fecha de pago: " << fechapago << endl << "\n";
+            getline(lectura, codigo);
+        }
+
+        if(i = 1){
+            cout << "\nSolo hay un cliente registrado" << endl;
+        }
+
+        else{
+            cout << "\nHay un total de " << i << " clientes registrados" << endl;
+        }
+    }
+    else{
+        error();
 
     }
+    lectura.close();
+    pausa();
+}
+
+void pausa(){
+    cout << "Presiona ENTER para continuar";
+    getch();
+    system("cls");
+}
+
+int main(){
+    system("color f0");
+    menu inicio;
+    inicio.menuPrincipal();
+    return 0;
+}
+
+void error(){
+    cout << "No se pudo abrir el archivo de registro, asegurese que el archivo se encuentre en\nla misma ubicacion que el programa o que el archivo se llame: clientes.txt.\nSi el archivo tiene otro nombre, renombrelo a 'clientes.txt'";
 }
